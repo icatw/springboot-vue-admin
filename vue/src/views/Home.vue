@@ -127,13 +127,16 @@ export default {
     };
     return {
       tableData: Array(10).fill(item),
-      msg: "hello 青哥哥",
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse: false,
       sideWidth: 200,
       logoTextShow: true,
       headerBg: 'headerBg'
     }
+  },
+  created() {
+    this.getUserData()
+
   },
   methods: {
     collapse() {  // 点击收缩按钮触发
@@ -147,6 +150,9 @@ export default {
         this.collapseBtnClass = 'el-icon-s-fold'
         this.logoTextShow = true
       }
+    },
+    getUserData() {
+      get
     }
   }
 }
