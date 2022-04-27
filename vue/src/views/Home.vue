@@ -74,8 +74,10 @@
 
         <div style="margin: 10px 0">
           <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="username"></el-input>
-          <el-input style="width: 200px" placeholder="请输入邮箱" suffix-icon="el-icon-message" class="ml-5"></el-input>
-          <el-input style="width: 200px" placeholder="请输入地址" suffix-icon="el-icon-position" class="ml-5"></el-input>
+          <el-input style="width: 200px" placeholder="请输入邮箱" suffix-icon="el-icon-message" v-model="email"
+                    class="ml-5"></el-input>
+          <el-input style="width: 200px" placeholder="请输入地址" suffix-icon="el-icon-position" v-model="address"
+                    class="ml-5"></el-input>
           <el-button class="ml-5" type="primary" @click="load">搜索</el-button>
         </div>
 
@@ -95,11 +97,23 @@
           <el-table-column prop="address" label="地址"></el-table-column>
           <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
-              <el-button type="success">编辑 <i class="el-icon-edit"></i></el-button>
+              <el-button type="success" @click="dialogFormVisible = true">编辑 <i class="el-icon-edit"></i></el-button>
               <el-button type="danger">删除 <i class="el-icon-remove-outline"></i></el-button>
             </template>
           </el-table-column>
         </el-table>
+        <el-dialog title="编辑用户" :visible.sync="dialogFormVisible">
+          <el-form :model="form">
+            <el-form-item label="昵称" :label-width="formLabelWidth">
+              <el-input v-model="form.nickname" autocomplete="off"></el-input>
+            </el-form-item>
+
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          </div>
+        </el-dialog>
         <div style="padding: 10px 0">
           <el-pagination
               @size-change="handleSizeChange"
@@ -128,11 +142,16 @@ export default {
       pageNum: 1,
       pageSize: 2,
       username: "",
+      email: "",
+      address: "",
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse: false,
       sideWidth: 200,
       logoTextShow: true,
-      headerBg: 'headerBg'
+      headerBg: 'headerBg',
+      dialogFormVisible: false,
+      formLabelWidth: '200px',
+      form:{}
     }
   },
   created() {
@@ -153,7 +172,8 @@ export default {
       }
     },
     load() {
-      fetch("http://localhost:9090/sysUser/page?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize + "&username=" + this.username)
+      fetch("http://localhost:9090/sysUser/page?pageNum=" +
+          this.pageNum + "&pageSize=" + this.pageSize + "&username=" + this.username + "&email=" + this.email + "&address=" + this.address)
           .then(res => res.json()).then(res => {
         console.log(res)
         this.tableData = res.records

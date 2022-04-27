@@ -36,5 +36,6 @@ public class SysUser extends Model<SysUser> {
     private String address;
     //创建时间
     private Date createTime;
+    private String avatarUrl;
 }
 

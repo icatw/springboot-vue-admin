@@ -11,6 +11,12 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * 配置
+ *
+ * @author 76218
+ * @date 2022/04/27
+ */
 @Configuration
 @EnableOpenApi
 public class SwaggerConfig {
@@ -32,7 +38,7 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(true)
                 .forCodeGeneration(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.qingge.springboot.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.icatw.springboot.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -46,9 +52,9 @@ public class SwaggerConfig {
     private ApiInfo apiInfo(String title, String version) {
         return new ApiInfoBuilder()
                 .title(title)
-                .description("更多请关注: https://blog.csdn.net/xqnode")
-                .termsOfServiceUrl("https://blog.csdn.net/xqnode")
-                .contact(new Contact("xqnode", "https://blog.csdn.net/xqnode", "xiaqingweb@163.com"))
+                .description("更多请关注: http://www.icatw.top")
+                .termsOfServiceUrl("http://www.icatw.top")
+                .contact(new Contact("icatw", "http://www.icatw.top", "762188827@qq.com"))
                 .version(version)
                 .build();
     }

@@ -23,14 +23,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
 
 
     @Override
-    public IPage<SysUser> getPage(Integer pageNum, Integer pageSize, String username, String nickname, String address) {
+    public IPage<SysUser> getPage(Integer pageNum, Integer pageSize, String username, String email, String address) {
         IPage<SysUser> page = new Page<>(pageNum, pageSize);
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
         if (!"".equals(username)) {
             queryWrapper.like("username", username);
         }
-        if (!"".equals(nickname)) {
-            queryWrapper.like("nickname", nickname);
+        if (!"".equals(email)) {
+            queryWrapper.like("email", email);
         }
         if (!"".equals(address)) {
             queryWrapper.like("address", address);

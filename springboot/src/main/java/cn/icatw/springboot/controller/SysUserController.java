@@ -4,6 +4,8 @@ package cn.icatw.springboot.controller;
 import cn.icatw.springboot.entity.SysUser;
 import cn.icatw.springboot.service.SysUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
  * @author icatw
  * @since 2022-04-26 08:37:23
  */
+@Api(tags = "用户模块")
 @RestController
 @RequestMapping("sysUser")
 public class SysUserController {
@@ -25,6 +28,7 @@ public class SysUserController {
     private SysUserService userService;
 
     // 新增和修改
+    @ApiOperation(value="新增和修改")
     @PostMapping
     public boolean save(@RequestBody SysUser user) {
         // 新增或者更新
@@ -48,9 +52,9 @@ public class SysUserController {
     public IPage<SysUser> findPage(@RequestParam Integer pageNum,
                                    @RequestParam Integer pageSize,
                                    @RequestParam(defaultValue = "") String username,
-                                   @RequestParam(defaultValue = "") String nickname,
+                                   @RequestParam(defaultValue = "") String email,
                                    @RequestParam(defaultValue = "") String address) {
-        return userService.getPage(pageNum, pageSize, username, nickname, address);
+        return userService.getPage(pageNum, pageSize, username, email, address);
 
         //return userService.page(page, queryWrapper);
     }

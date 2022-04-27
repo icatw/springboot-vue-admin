@@ -17,10 +17,10 @@ public interface SysUserService extends IService<SysUser> {
      *  @param pageNum  页面num
      * @param pageSize 页面大小
      * @param username 用户名
-     * @param nickname 昵称
+     * @param email 邮箱
      * @param address  地址
      * @return
      */
-    IPage<SysUser> getPage(Integer pageNum, Integer pageSize, String username, String nickname, String address);
+    IPage<SysUser> getPage(Integer pageNum, Integer pageSize, String username, String email, String address);
 }
 
