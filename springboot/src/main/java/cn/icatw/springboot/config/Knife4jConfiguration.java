@@ -10,6 +10,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
+/**
+ * knife4j配置
+ *
+ * @author icatw
+ * @date 2022/04/27
+ */
 @Configuration
 @EnableSwagger2WebMvc
 public class Knife4jConfiguration {

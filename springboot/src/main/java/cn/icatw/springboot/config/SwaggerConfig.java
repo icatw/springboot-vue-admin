@@ -52,7 +52,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo(String title, String version) {
         return new ApiInfoBuilder()
                 .title(title)
-                .description("更多请关注: http://www.icatw.top")
+                .description("icatw: http://www.icatw.top")
                 .termsOfServiceUrl("http://www.icatw.top")
                 .contact(new Contact("icatw", "http://www.icatw.top", "762188827@qq.com"))
                 .version(version)
