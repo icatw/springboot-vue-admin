@@ -57,11 +57,19 @@ public class SysUserController {
      * @param id id
      * @return boolean
      */
+    @ApiOperation(value = "根据id删除")
     @DeleteMapping("/{id}")
     public boolean delete(@PathVariable Integer id) {
         return userService.removeById(id);
     }
 
+    /**
+     * 批量删除
+     *
+     * @param ids id
+     * @return boolean
+     */
+    @ApiOperation(value = "根据id批量删除")
     @DeleteMapping("/batchDelete/{ids}")
     public boolean batchDelete(@PathVariable List<Integer> ids) {
         return userService.removeByIds(ids);
