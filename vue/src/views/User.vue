@@ -14,8 +14,13 @@
     <div style="margin: 10px 0">
       <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
       <el-button type="danger" @click="batchDelByIds(ids)">批量删除 <i class="el-icon-remove-outline"></i></el-button>
-      <el-button type="primary">导入 <i class="el-icon-bottom"></i></el-button>
-      <el-button type="primary">导出 <i class="el-icon-top"></i></el-button>
+      <el-upload
+          class="upload-demo"
+          action="http://localhost:9090/sysUser/import"
+          :show-file-list="false" accept="xlsx" :on-success="handleExcelImportSuccess" style="display: inline-block">
+        <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
+      </el-upload>
+      <el-button type="primary" class="ml-5" @click="exportUserList">导出 <i class="el-icon-top"></i></el-button>
     </div>
 
     <el-table :data="tableData" border stripe :header-cell-class-name="headerBg"
@@ -79,6 +84,7 @@
 </template>
 
 <script>
+
 export default {
   name: "User",
   data() {
@@ -220,6 +226,16 @@ export default {
       } else {
         this.$message.info('未选择数据！')
       }
+    },
+    //导出Excel
+    exportUserList() {
+      window.open("http://localhost:9090/sysUser/export")
+      this.$message.success("导出成功！")
+    },
+    //导入Excel
+    handleExcelImportSuccess() {
+      this.$message.success("导入成功")
+      this.load()
     }
   }
 }

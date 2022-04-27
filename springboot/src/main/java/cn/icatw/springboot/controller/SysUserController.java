@@ -1,14 +1,25 @@
 package cn.icatw.springboot.controller;
 
 
+import cn.afterturn.easypoi.entity.vo.NormalExcelConstants;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import cn.afterturn.easypoi.view.PoiBaseView;
 import cn.icatw.springboot.entity.SysUser;
 import cn.icatw.springboot.service.SysUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -20,6 +31,7 @@ import java.util.List;
 @Api(tags = "用户模块")
 @RestController
 @RequestMapping("sysUser")
+@Slf4j
 public class SysUserController {
     /**
      * 服务对象
@@ -96,6 +108,48 @@ public class SysUserController {
         //return userService.page(page, queryWrapper);
     }
 
+    /**
+     * 导出用户列表
+     *
+     * @param map      地图
+     * @param request  请求
+     * @param response 响应
+     */
+    @ApiOperation(value = "导出会员列表Excel")
+    @GetMapping("/export")
+    public void exportUserList(ModelMap map,
+                               HttpServletRequest request,
+                               HttpServletResponse response) {
+        List<SysUser> memberList = userService.list();
+        ExportParams params = new ExportParams("用户信息列表", "用户信息列表", ExcelType.XSSF);
+        map.put(NormalExcelConstants.DATA_LIST, memberList);
+        map.put(NormalExcelConstants.CLASS, SysUser.class);
+        map.put(NormalExcelConstants.PARAMS, params);
+        map.put(NormalExcelConstants.FILE_NAME, "用户信息");
+        PoiBaseView.render(map, request, response, NormalExcelConstants.EASYPOI_EXCEL_VIEW);
+    }
+
+
+    /**
+     * 导入成员列表
+     *
+     * @param file 文件
+     * @return {@link List}<{@link SysUser}>
+     * @throws Exception 异常
+     */
+    @ApiOperation("从Excel导入会员列表")
+    @PostMapping("/import")
+    public List<SysUser> importMemberList(@RequestPart("file") MultipartFile file) throws Exception {
+        ImportParams params = new ImportParams();
+        params.setTitleRows(1);
+        params.setHeadRows(1);
+        List<SysUser> list = ExcelImportUtil.importExcel(
+                file.getInputStream(),
+                SysUser.class, params);
+        log.info(list.toString());
+        userService.saveOrUpdateBatch(list);
+        return userService.list();
+    }
 }
 
 
