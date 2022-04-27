@@ -1,7 +1,7 @@
 <template>
   <el-container style="min-height: 100vh">
-    <el-aside :width="sideWidth + 'px'"
-              style="background-color: rgb(238, 241, 246); box-shadow: 2px 0 6px rgb(0 21 41 / 35%);">
+
+    <el-aside :width="sideWidth + 'px'" style="box-shadow: 2px 0 6px rgb(0 21 41 / 35%);">
       <el-menu :default-openeds="['1', '3']" style="min-height: 100%; overflow-x: hidden"
                background-color="rgb(48, 65, 86)"
                text-color="#fff"
@@ -50,7 +50,6 @@
     </el-aside>
 
     <el-container>
-
       <el-header style="font-size: 12px; border-bottom: 1px solid #ccc; line-height: 60px; display: flex">
         <div style="flex: 1; font-size: 20px">
           <span :class="collapseBtnClass" style="cursor: pointer" @click="collapse"></span>
@@ -58,8 +57,8 @@
         <el-dropdown style="width: 70px; cursor: pointer">
           <span>王小虎</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item style="font-size: 14px; padding: 5px 0">个人信息</el-dropdown-item>
+            <el-dropdown-item style="font-size: 14px; padding: 5px 0">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
@@ -72,11 +71,12 @@
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <div style="padding:10px 0">
-          <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search"></el-input>
+
+        <div style="margin: 10px 0">
+          <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="username"></el-input>
           <el-input style="width: 200px" placeholder="请输入邮箱" suffix-icon="el-icon-message" class="ml-5"></el-input>
           <el-input style="width: 200px" placeholder="请输入地址" suffix-icon="el-icon-position" class="ml-5"></el-input>
-          <el-button class="ml-5" type="primary">搜索</el-button>
+          <el-button class="ml-5" type="primary" @click="load">搜索</el-button>
         </div>
 
         <div style="margin: 10px 0">
@@ -87,12 +87,12 @@
         </div>
 
         <el-table :data="tableData" border stripe :header-cell-class-name="headerBg">
-          <el-table-column prop="date" label="日期" width="140">
-          </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120">
-          </el-table-column>
-          <el-table-column prop="address" label="地址">
-          </el-table-column>
+          <el-table-column prop="id" label="ID" width="80"></el-table-column>
+          <el-table-column prop="username" label="用户名" width="140"></el-table-column>
+          <el-table-column prop="nickname" label="昵称" width="120"></el-table-column>
+          <el-table-column prop="email" label="邮箱"></el-table-column>
+          <el-table-column prop="phone" label="电话"></el-table-column>
+          <el-table-column prop="address" label="地址"></el-table-column>
           <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
               <el-button type="success">编辑 <i class="el-icon-edit"></i></el-button>
@@ -102,11 +102,13 @@
         </el-table>
         <div style="padding: 10px 0">
           <el-pagination
-
-              :page-sizes="[5, 10, 15, 20]"
-              :page-size="10"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="pageNum"
+              :page-sizes="[2, 5, 10, 20]"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
+              :total="total">
           </el-pagination>
         </div>
       </el-main>
@@ -120,13 +122,12 @@
 export default {
   name: 'Home',
   data() {
-    const item = {
-      date: '2016-05-02',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1518 弄'
-    };
     return {
-      tableData: Array(10).fill(item),
+      tableData: [],
+      total: 0,
+      pageNum: 1,
+      pageSize: 2,
+      username: "",
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse: false,
       sideWidth: 200,
@@ -135,8 +136,8 @@ export default {
     }
   },
   created() {
-    this.getUserData()
-
+    // 请求分页查询数据
+    this.load()
   },
   methods: {
     collapse() {  // 点击收缩按钮触发
@@ -151,12 +152,29 @@ export default {
         this.logoTextShow = true
       }
     },
-    getUserData() {
-      get
+    load() {
+      fetch("http://localhost:9090/sysUser/page?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize + "&username=" + this.username)
+          .then(res => res.json()).then(res => {
+        console.log(res)
+        this.tableData = res.records
+        this.total = res.total
+        console.log(res.total)
+      })
+    },
+    handleSizeChange(pageSize) {
+      console.log(pageSize)
+      this.pageSize = pageSize
+      this.load()
+    },
+    handleCurrentChange(pageNum) {
+      console.log(pageNum)
+      this.pageNum = pageNum
+      this.load()
     }
   }
 }
 </script>
+
 <style>
 .headerBg {
   background: #eee !important;

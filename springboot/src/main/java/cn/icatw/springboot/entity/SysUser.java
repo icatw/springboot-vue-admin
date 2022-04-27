@@ -3,9 +3,10 @@ package cn.icatw.springboot.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Date;
  * @author icatw
  * @since 2022-04-26 08:37:23
  */
-@SuppressWarnings("serial")
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SysUser extends Model<SysUser> {
     //id
@@ -23,7 +24,7 @@ public class SysUser extends Model<SysUser> {
     //用户名
     private String username;
     //密码
-
+    @JsonIgnore
     private String password;
     //昵称
     private String nickname;
@@ -35,16 +36,5 @@ public class SysUser extends Model<SysUser> {
     private String address;
     //创建时间
     private Date createTime;
-
-
-    /**
-     * 获取主键值
-     *
-     * @return 主键值
-     */
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 }
 
