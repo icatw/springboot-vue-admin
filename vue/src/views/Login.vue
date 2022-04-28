@@ -18,7 +18,6 @@
           <el-button type="warning" size="small" autocomplete="off" @click="$router.push('/register')">注册</el-button>
         </el-form-item>
       </el-form>
-
     </div>
   </div>
 </template>

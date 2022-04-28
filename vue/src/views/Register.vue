@@ -13,6 +13,10 @@
           <el-input placeholder="请输入密码" size="medium" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password
                     v-model="user.password"></el-input>
         </el-form-item>
+        <el-form-item prop="confirmPassword">
+          <el-input placeholder="请确认密码" size="medium" style="margin: 5px 0" prefix-icon="el-icon-lock" show-password
+                    v-model="user.confirmPassword"></el-input>
+        </el-form-item>
         <el-form-item style="margin: 10px 0; text-align: right">
           <el-button type="primary" size="small" autocomplete="off" @click="register">注册</el-button>
           <el-button type="warning" size="small" autocomplete="off" @click="$router.push('/login')">已有账号？返回登陆
@@ -42,31 +46,36 @@ export default {
           {required: true, message: '请输入密码', trigger: 'blur'},
           {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
         ],
+        confirmPassword: [
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
+        ],
       }
     }
   },
   methods: {
-    login() {
+    register() {
       this.$refs['userForm'].validate((valid) => {
         if (valid) {  // 表单校验合法
-          this.request.post("/sysUser/login", this.user).then(res => {
+          if (this.user.password !== this.user.confirmPassword) {
+            this.$message.error("两次输入的密码不一致")
+            return false
+          }
+          this.request.post("/sysUser/register", this.user).then(res => {
             console.log(res)
             if (res.code != 200) {
               this.$message.error(res.msg)
             } else {
               //存储用户信息到浏览器
               localStorage.setItem("user", JSON.stringify(res.data))
-              this.$router.push("/")
-              this.$message.success("登陆成功！")
+              this.$router.push("/login")
+              this.$message.success("注册成功，请登录！")
             }
           })
         } else {
           return false;
         }
       });
-    },
-    register() {
-
     }
   }
 }

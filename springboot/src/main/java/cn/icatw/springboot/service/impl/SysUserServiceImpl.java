@@ -64,16 +64,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     }
 
     @Override
-    public UserDto register(UserDto userDto) {
+    public boolean register(UserDto userDto) {
         SysUser user = this.baseMapper.selectOne(new QueryWrapper<SysUser>().eq("username", userDto.getUsername()));
-        if (user != null) {
+        if (user == null) {
             SysUser sysUser = new SysUser();
             BeanUtils.copyProperties(userDto, sysUser);
-            boolean b = this.save(sysUser);
-        }else {
-            throw new CustomException(ResultStatusEnum)
+            //设置默认昵称和头像
+            sysUser.setNickname("Tom");
+            sysUser.setAvatarUrl("https://q1.qlogo.cn/g?b=qq&nk=762188827&s=100");
+            return this.save(sysUser);
+        } else {
+            throw new CustomException(ResultStatusEnum.USER_EXISTS);
         }
-        return null;
     }
 }
 

@@ -29,7 +29,11 @@ public enum ResultStatusEnum {
     /**
      * 密码错误
      */
-    PASSWORD_NOT_MATCHING(400, "用户名或密码错误"),
+    PASSWORD_NOT_MATCHING(300, "用户名或密码错误"),
+    /**
+     * 用户存在
+     */
+    USER_EXISTS(301, "该用户名已存在"),
     /**
      * 系统异常
      */

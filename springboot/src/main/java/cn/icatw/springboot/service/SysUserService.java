@@ -38,6 +38,6 @@ public interface SysUserService extends IService<SysUser> {
      * @param userDto 用户dto
      * @return {@link UserDto}
      */
-    UserDto register(UserDto userDto);
+    boolean register(UserDto userDto);
 }
 

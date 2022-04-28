@@ -102,12 +102,13 @@ public class SysUserController {
      */
     @ApiOperation(value = "分页")
     @GetMapping("/page")
-    public IPage<SysUser> findPage(@RequestParam Integer pageNum,
+    public Result findPage(@RequestParam Integer pageNum,
                                    @RequestParam Integer pageSize,
                                    @RequestParam(defaultValue = "") String username,
                                    @RequestParam(defaultValue = "") String email,
                                    @RequestParam(defaultValue = "") String address) {
-        return userService.getPage(pageNum, pageSize, username, email, address);
+        IPage<SysUser> page = userService.getPage(pageNum, pageSize, username, email, address);
+        return Result.success(page);
         //return userService.page(page, queryWrapper);
     }
 
@@ -184,7 +185,12 @@ public class SysUserController {
     @ApiOperation(value = "用户注册")
     @PostMapping("/register")
     public Result register(@RequestBody UserDto userDto, HttpServletRequest request) {
-        UserDto dto = userService.register(userDto);
+        boolean b = userService.register(userDto);
+        if (b) {
+            return Result.success(userDto);
+        } else {
+            return Result.error(ResultStatusEnum.USER_EXISTS.getCode(), ResultStatusEnum.USER_EXISTS.getMessage());
+        }
     }
 }
 

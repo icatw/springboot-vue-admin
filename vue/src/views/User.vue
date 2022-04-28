@@ -48,7 +48,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="pageNum"
-          :page-sizes="[2, 5, 10, 20]"
+          :page-sizes="[5, 10, 20, 50]"
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
@@ -85,6 +85,8 @@
 
 <script>
 
+import request from "@/utils/request";
+
 export default {
   name: "User",
   data() {
@@ -92,7 +94,7 @@ export default {
       tableData: [],
       total: 0,
       pageNum: 1,
-      pageSize: 2,
+      pageSize: 10,
       username: "",
       email: "",
       address: "",
@@ -123,8 +125,8 @@ export default {
           }
       ).then(res => {
         console.log(res);
-        this.tableData = res.records;
-        this.total = res.total;
+        this.tableData = res.data.records;
+        this.total = res.data.total;
       })
     },
     handleSizeChange(pageSize) {
@@ -218,14 +220,15 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(function () {
-          this.request.delete("/sysUser/batchDelete/" + ids)
-        }).then(() => {
+          request.delete("/sysUser/batchDelete/" + ids)
           this.load()
+        }).then(() => {
           this.$message.success('删除成功')
         })
       } else {
         this.$message.info('未选择数据！')
       }
+
     },
     //导出Excel
     exportUserList() {
