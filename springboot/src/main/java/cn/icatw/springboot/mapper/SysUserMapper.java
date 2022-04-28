@@ -1,4 +1,4 @@
-package cn.icatw.springboot.dao;
+package cn.icatw.springboot.mapper;
 
 import cn.icatw.springboot.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2022-04-26 08:37:23
  */
 @Mapper
-public interface SysUserDao extends BaseMapper<SysUser> {
+public interface SysUserMapper extends BaseMapper<SysUser> {
 
 }
 

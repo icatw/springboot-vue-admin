@@ -86,8 +86,13 @@ public class SysUserController {
      */
     @ApiOperation(value = "根据id批量删除")
     @DeleteMapping("/batchDelete/{ids}")
-    public boolean batchDelete(@PathVariable List<Integer> ids) {
-        return userService.removeByIds(ids);
+    public Result batchDelete(@PathVariable List<Integer> ids) {
+        boolean b = userService.removeByIds(ids);
+        if (b) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 
     /**
@@ -103,10 +108,10 @@ public class SysUserController {
     @ApiOperation(value = "分页")
     @GetMapping("/page")
     public Result findPage(@RequestParam Integer pageNum,
-                                   @RequestParam Integer pageSize,
-                                   @RequestParam(defaultValue = "") String username,
-                                   @RequestParam(defaultValue = "") String email,
-                                   @RequestParam(defaultValue = "") String address) {
+                           @RequestParam Integer pageSize,
+                           @RequestParam(defaultValue = "") String username,
+                           @RequestParam(defaultValue = "") String email,
+                           @RequestParam(defaultValue = "") String address) {
         IPage<SysUser> page = userService.getPage(pageNum, pageSize, username, email, address);
         return Result.success(page);
         //return userService.page(page, queryWrapper);

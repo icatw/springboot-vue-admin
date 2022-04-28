@@ -34,6 +34,9 @@ public enum ResultStatusEnum {
      * 用户存在
      */
     USER_EXISTS(301, "该用户名已存在"),
+    NO_TOKEN_EXCEPTION(302, "没有token，请重新登陆"),
+    TOKEN_VERIFICATION_FAILED(303, "token验证失败，请重新登录"),
+    NOT_USER(304, "用户不存在，请重新登录"),
     /**
      * 系统异常
      */

@@ -209,26 +209,41 @@ export default {
         });
       });
     },
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      console.log(this.ids)
-    },
     batchDelByIds(ids) {
       if (ids.length !== 0) {
         this.$confirm('是否确认删除这' + ids.length + '条数据?', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
-        }).then(function () {
-          request.delete("/sysUser/batchDelete/" + ids)
-          this.load()
         }).then(() => {
-          this.$message.success('删除成功')
+          request.delete("/sysUser/batchDelete/" + ids).then(res => {
+            console.log(res)
+            if (res.code==200) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              });
+              this.load()
+            } else {
+              this.$message({
+                type: 'warning',
+                message: '删除失败!',
+              });
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
         })
       } else {
         this.$message.info('未选择数据！')
       }
-
+    },
+    handleSelectionChange(selection) {
+      this.ids = selection.map(item => item.id)
+      console.log(this.ids)
     },
     //导出Excel
     exportUserList() {

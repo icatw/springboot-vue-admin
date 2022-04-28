@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022/04/27
  */
 @Configuration
-@MapperScan("cn.icatw.springboot.dao")
+@MapperScan("cn.icatw.springboot.mapper")
 public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

@@ -9,6 +9,11 @@ spring:
     mvc:
         pathmatch:
             matching-strategy: ANT_PATH_MATCHER
+    servlet:
+        multipart:
+            max-file-size: 300MB
+            max-request-size: 300MB
+fileLocation: G:/test/
 server:
     port: 9090
 mybatis-plus:
@@ -16,3 +21,10 @@ mybatis-plus:
     configuration:
         log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+## 用来指定服务器端文件大小的限制
+#    spring.servlet.multipart.max-file-size=300MB
+#
+#  # 用来指定客户端文件大小的限制
+#    spring.servlet.multipart.max-request-size=300MB
+#
+#    fileLocation=static/files

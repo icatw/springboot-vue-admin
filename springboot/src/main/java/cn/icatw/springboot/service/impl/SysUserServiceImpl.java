@@ -1,15 +1,17 @@
 package cn.icatw.springboot.service.impl;
 
 import cn.icatw.springboot.common.ResultStatusEnum;
-import cn.icatw.springboot.dao.SysUserDao;
 import cn.icatw.springboot.dto.UserDto;
 import cn.icatw.springboot.entity.SysUser;
 import cn.icatw.springboot.exception.CustomException;
+import cn.icatw.springboot.mapper.SysUserMapper;
 import cn.icatw.springboot.service.SysUserService;
+import cn.icatw.springboot.utils.TokenUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,10 @@ import org.springframework.stereotype.Service;
  * @since 2022-04-26 08:37:24
  */
 @Service("sysUserService")
-public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> implements SysUserService {
+@Slf4j
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
     @Autowired
-    SysUserDao sysUserDao;
+    SysUserMapper sysUserMapper;
 
 
     @Override
@@ -57,6 +60,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         if (user != null) {
             UserDto dto = new UserDto();
             BeanUtils.copyProperties(user, dto);
+            String token = TokenUtils.genToken(user.getId().toString(), user.getPassword());
+            dto.setToken(token);
+            log.debug(dto.toString());
             return dto;
         } else {
             throw new CustomException(ResultStatusEnum.PASSWORD_NOT_MATCHING);
