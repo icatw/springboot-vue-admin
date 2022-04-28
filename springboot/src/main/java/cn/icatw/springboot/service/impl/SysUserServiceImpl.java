@@ -1,6 +1,7 @@
 package cn.icatw.springboot.service.impl;
 
 import cn.icatw.springboot.dao.SysUserDao;
+import cn.icatw.springboot.dto.UserDto;
 import cn.icatw.springboot.entity.SysUser;
 import cn.icatw.springboot.service.SysUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -36,6 +37,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
             queryWrapper.like("address", address);
         }
         return this.baseMapper.selectPage(page, queryWrapper);
+    }
+
+    @Override
+    public boolean login(UserDto userDto) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", userDto.getUsername())
+                .eq("password", userDto.getPassword());
+        return this.baseMapper.selectOne(wrapper) != null;
     }
 }
 

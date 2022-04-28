@@ -7,6 +7,7 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.view.PoiBaseView;
+import cn.icatw.springboot.dto.UserDto;
 import cn.icatw.springboot.entity.SysUser;
 import cn.icatw.springboot.service.SysUserService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -149,6 +150,18 @@ public class SysUserController {
         log.info(list.toString());
         userService.saveOrUpdateBatch(list);
         return userService.list();
+    }
+
+    /**
+     * 登录
+     *
+     * @param userDto 用户dto
+     * @return boolean
+     */
+    @ApiOperation(value = "用户登陆")
+    @PostMapping("/login")
+    public boolean login(@RequestBody UserDto userDto) {
+        return userService.login(userDto);
     }
 }
 

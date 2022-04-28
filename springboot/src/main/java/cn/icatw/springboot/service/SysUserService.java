@@ -1,5 +1,6 @@
 package cn.icatw.springboot.service;
 
+import cn.icatw.springboot.dto.UserDto;
 import cn.icatw.springboot.entity.SysUser;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -22,5 +23,13 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     IPage<SysUser> getPage(Integer pageNum, Integer pageSize, String username, String email, String address);
+
+    /**
+     * 登录
+     *
+     * @param userDto 用户dto
+     * @return boolean
+     */
+    boolean login(UserDto userDto);
 }
 
