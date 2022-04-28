@@ -2,9 +2,10 @@ import axios from 'axios'
 
 const request = axios.create({
     baseURL: 'http://localhost:9090',
-    timeout: 5000
+    timeout: 50000
 })
-
+// axios.defaults.withCredentials = true
+// request.defaults.withCredentials=true
 // request 拦截器
 // 可以自请求发送前对请求做一些处理
 // 比如统一加token，对请求参数统一加密

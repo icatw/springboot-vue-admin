@@ -30,6 +30,14 @@ public interface SysUserService extends IService<SysUser> {
      * @param userDto 用户dto
      * @return boolean
      */
-    boolean login(UserDto userDto);
+    UserDto login(UserDto userDto);
+
+    /**
+     * 注册
+     *
+     * @param userDto 用户dto
+     * @return {@link UserDto}
+     */
+    UserDto register(UserDto userDto);
 }
 

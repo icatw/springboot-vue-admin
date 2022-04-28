@@ -7,6 +7,8 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.view.PoiBaseView;
+import cn.icatw.springboot.common.Result;
+import cn.icatw.springboot.common.ResultStatusEnum;
 import cn.icatw.springboot.dto.UserDto;
 import cn.icatw.springboot.entity.SysUser;
 import cn.icatw.springboot.service.SysUserService;
@@ -160,8 +162,29 @@ public class SysUserController {
      */
     @ApiOperation(value = "用户登陆")
     @PostMapping("/login")
-    public boolean login(@RequestBody UserDto userDto) {
-        return userService.login(userDto);
+    public Result login(@RequestBody UserDto userDto, HttpServletRequest request) {
+        UserDto dto = userService.login(userDto);
+        if (dto != null) {
+            //HttpSession session = request.getSession();
+            //session.setAttribute("userInfo",dto);
+            //SysUser userInfo = (SysUser) session.getAttribute("userInfo");
+            //log.info(userInfo.toString());
+            return Result.success(dto);
+        }
+        return Result.error(ResultStatusEnum.PASSWORD_NOT_MATCHING.getCode(),
+                ResultStatusEnum.PASSWORD_NOT_MATCHING.getMessage());
+    }
+
+    /**
+     * 登录
+     *
+     * @param userDto 用户dto
+     * @return boolean
+     */
+    @ApiOperation(value = "用户注册")
+    @PostMapping("/register")
+    public Result register(@RequestBody UserDto userDto, HttpServletRequest request) {
+        UserDto dto = userService.register(userDto);
     }
 }
 

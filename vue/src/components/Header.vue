@@ -8,11 +8,19 @@
         <el-breadcrumb-item>{{ currentPathName }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-dropdown style="width: 70px; cursor: pointer">
-      <span>王小虎</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+    <el-dropdown style="width: 100px; cursor: pointer">
+      <div style="display: inline-block">
+        <img :src="user.avatarUrl" alt=""
+             style="width: 30px; border-radius: 50%; position: relative; top: 10px; right: 5px">
+        <span>{{ user.nickname }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+      </div>
       <el-dropdown-menu slot="dropdown" style="width: 100px; text-align: center">
-        <el-dropdown-item style="font-size: 14px; padding: 5px 0">个人信息</el-dropdown-item>
-        <el-dropdown-item style="font-size: 14px; padding: 5px 0">退出</el-dropdown-item>
+        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+          <router-link to="/person">个人信息</router-link>
+        </el-dropdown-item>
+        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+          <span style="text-decoration: none" @click="logout">退出</span>
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
@@ -31,9 +39,19 @@ export default {
       return this.$store.state.currentPathName;　　//需要监听的数据
     }
   },
+  data() {
+    return {
+      user: localStorage.getItem("user") != null ? JSON.parse(localStorage.getItem("user")) : {}
+    }
+  },
   methods: {
     collapse() {
-    this.$emit("asideCollapse");
+      this.$emit("asideCollapse");
+    },
+    logout() {
+      this.$router.push("/login")
+      localStorage.removeItem("user")
+      this.$message.success("退出成功！")
     }
   }
 
