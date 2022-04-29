@@ -7,7 +7,6 @@ import cn.hutool.crypto.SecureUtil;
 import cn.icatw.springboot.common.Result;
 import cn.icatw.springboot.entity.SysFile;
 import cn.icatw.springboot.service.SysFileService;
-import cn.icatw.springboot.service.SysUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -38,16 +37,6 @@ import java.util.List;
 @RequestMapping("/file")
 @Slf4j
 public class FileController {
-    //@PostMapping("/upload")
-    //public String upload(@RequestParam MultipartFile file) {
-    //    //原始名称
-    //    String originalFilename = file.getOriginalFilename();
-    //    //文件类型（后缀名）
-    //    String type = FileUtil.extName(originalFilename);
-    //    long size = file.getSize();
-    //    //    先存储到磁盘，再存储到数据库
-    //}
-
     /**
      * 读取配置文件中的路径 static/files
      */
@@ -55,8 +44,6 @@ public class FileController {
     private String fileUploadPath;
     @Autowired
     private SysFileService fileService;
-    @Autowired
-    private SysUserService userService;
 
     @ApiOperation(value = "文件上传")
     @PostMapping("/upload")
@@ -110,6 +97,7 @@ public class FileController {
      * @param response 响应
      * @throws IOException
      */
+    @ApiOperation(value = "文件下载")
     @GetMapping("/{fileUUID}")
     public void download(@PathVariable String fileUUID, HttpServletResponse response) throws IOException {
         // 根据文件的唯一标识码获取文件
@@ -147,6 +135,7 @@ public class FileController {
      * @param files 文件
      * @return {@link Result}
      */
+    @ApiOperation(value = "文件更新")
     @PostMapping("/update")
     public Result update(@RequestBody SysFile files) {
         return Result.success(fileService.updateById(files));
@@ -158,6 +147,7 @@ public class FileController {
      * @param id id
      * @return {@link Result}
      */
+    @ApiOperation(value = "文件删除（逻辑删除）")
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Integer id) {
         SysFile files = fileService.getById(id);
@@ -172,6 +162,7 @@ public class FileController {
      * @param ids id
      * @return {@link Result}
      */
+    @ApiOperation(value = "批量删除")
     @PostMapping("/del/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids) {
         // select * from sys_file where id in (id,id,id...)
@@ -193,6 +184,7 @@ public class FileController {
      * @param name     名字
      * @return {@link Result}
      */
+    @ApiOperation(value = "分页")
     @GetMapping("/page")
     public Result findPage(@RequestParam Integer pageNum,
                            @RequestParam Integer pageSize,
@@ -205,7 +197,9 @@ public class FileController {
         if (!"".equals(name)) {
             queryWrapper.like("name", name);
         }
-        return Result.success(fileService.page(new Page<>(pageNum, pageSize), queryWrapper));
+        Page<SysFile> page = fileService.page(new Page<>(pageNum, pageSize), queryWrapper);
+        log.error(page.toString());
+        return Result.success(page);
     }
 }
 

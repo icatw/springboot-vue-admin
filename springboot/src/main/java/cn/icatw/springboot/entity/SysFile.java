@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @TableName sys_file
  * @date 2022/04/28
  */
-@TableName(value ="sys_file")
+@TableName(value = "sys_file")
 @Data
 public class SysFile implements Serializable {
     /**
@@ -52,46 +52,12 @@ public class SysFile implements Serializable {
     /**
      * 是否禁用（1，可用，0，禁用）
      */
-    private Integer enable;
+    private boolean enable;
 
     private String md5;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        SysFile other = (SysFile) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getSize() == null ? other.getSize() == null : this.getSize().equals(other.getSize()))
-            && (this.getUrl() == null ? other.getUrl() == null : this.getUrl().equals(other.getUrl()))
-            && (this.getIsDelete() == null ? other.getIsDelete() == null : this.getIsDelete().equals(other.getIsDelete()))
-            && (this.getEnable() == null ? other.getEnable() == null : this.getEnable().equals(other.getEnable()));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getSize() == null) ? 0 : getSize().hashCode());
-        result = prime * result + ((getUrl() == null) ? 0 : getUrl().hashCode());
-        result = prime * result + ((getIsDelete() == null) ? 0 : getIsDelete().hashCode());
-        result = prime * result + ((getEnable() == null) ? 0 : getEnable().hashCode());
-        return result;
-    }
 
     @Override
     public String toString() {

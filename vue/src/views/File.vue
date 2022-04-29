@@ -98,22 +98,22 @@ export default {
           name: this.name,
         }
       }).then(res => {
-
         this.tableData = res.data.records
+        console.log(this.tableData)
         this.total = res.data.total
-
       })
     },
     changeEnable(row) {
+      console.log(row)
       this.request.post("/file/update", row).then(res => {
-        if (res.code === '200') {
+        if (res.code === 200) {
           this.$message.success("操作成功")
         }
       })
     },
     del(id) {
       this.request.delete("/file/" + id).then(res => {
-        if (res.code === '200') {
+        if (res.code === 200) {
           this.$message.success("删除成功")
           this.load()
         } else {
@@ -128,7 +128,7 @@ export default {
     delBatch() {
       let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
       this.request.post("/file/del/batch", ids).then(res => {
-        if (res.code === '200') {
+        if (res.code === 200) {
           this.$message.success("批量删除成功")
           this.load()
         } else {
