@@ -67,6 +67,7 @@ export default {
         } else {
           this.$message.error("保存失败")
         }
+        // location.reload()
       })
     },
     handleAvatarSuccess(res) {

@@ -4,9 +4,9 @@
       <b>欢迎你！{{ user.nickname }}</b>
     </div>
     <el-card>
-      青哥出手，马上拥有
+      多喝热水
       <el-divider/>
-      虎虎生威，虎年大吉
+      早点睡
     </el-card>
     <div style="height: 1px; background: #ddd; margin: 20px 0"/>
 
@@ -20,14 +20,11 @@
           <el-button type="danger"><i class="el-icon-coin"></i> 免费开源</el-button>
         </div>
         <div class="m-10">
-          <el-button type="primary"><i class="el-icon-s-custom"></i> 交流QQ群：529910361</el-button>
+          <el-button type="primary"><i class="el-icon-s-custom"></i> 联系方式：762188827@qq.com</el-button>
         </div>
         <div class="m-10">
           <el-button type="primary"><i class="el-icon-link"></i> <a style="color: #fff"
-                                                                    href="https://gitee.com/xqnode/pure-design">Gitee源码</a>
-          </el-button>
-          <el-button type="primary"><i class="el-icon-link"></i> <a style="color: #fff"
-                                                                    href="https://www.bilibili.com/video/BV1U44y1W77D">B站视频讲解</a>
+                                                                    href="https://gitee.com/icatw/springboot-vue-admin">Gitee源码</a>
           </el-button>
         </div>
       </el-col>

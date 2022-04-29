@@ -13,7 +13,7 @@
 
       <el-main>
         <!--        表示当前页面的子路由会在 <router-view /> 里面展示-->
-        <router-view></router-view>
+        <router-view @refreshUser="getUser"></router-view>
       </el-main>
 
     </el-container>
@@ -50,7 +50,11 @@ export default {
         this.logoTextShow = true
       }
     },
+    getUser() {
+      this.request.get("/sysUser/username/" + this.user.username).then(res => {
 
+      })
+    },
   }
 }
 </script>
