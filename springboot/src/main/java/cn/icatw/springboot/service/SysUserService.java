@@ -39,5 +39,13 @@ public interface SysUserService extends IService<SysUser> {
      * @return {@link UserDto}
      */
     boolean register(UserDto userDto);
+
+    /**
+     * 得到用户名
+     *
+     * @param username 用户名
+     * @return {@link SysUser}
+     */
+    SysUser getByUsername(String username);
 }
 

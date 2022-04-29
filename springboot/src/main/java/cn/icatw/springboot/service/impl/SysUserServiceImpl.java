@@ -62,7 +62,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             BeanUtils.copyProperties(user, dto);
             String token = TokenUtils.genToken(user.getId().toString(), user.getPassword());
             dto.setToken(token);
-            log.debug(dto.toString());
+
             return dto;
         } else {
             throw new CustomException(ResultStatusEnum.PASSWORD_NOT_MATCHING);
@@ -82,6 +82,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         } else {
             throw new CustomException(ResultStatusEnum.USER_EXISTS);
         }
+    }
+
+    @Override
+    public SysUser getByUsername(String username) {
+        return this.getOne(new QueryWrapper<SysUser>().eq("username", username));
     }
 }
 

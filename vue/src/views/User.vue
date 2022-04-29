@@ -155,7 +155,7 @@ export default {
     save() {
       this.request.post("/sysUser", this.form).then(res => {
         console.log(res)
-        if (res) {
+        if (res.code == 200) {
           this.$message.success("保存成功！")
           this.dialogFormVisible = false
           this.load()
@@ -173,7 +173,7 @@ export default {
     edit() {
       this.request.post("/sysUser", this.form).then(res => {
         console.log(res)
-        if (res) {
+        if (res.code == 200) {
           this.$message.success("修改成功！")
           this.dialogFormVisible = false
           this.load()

@@ -50,9 +50,13 @@ public class SysUserController {
      */
     @ApiOperation(value = "新增或修改用户信息")
     @PostMapping
-    public boolean save(@RequestBody SysUser user) {
+    public Result save(@RequestBody SysUser user) {
         // 新增或者更新
-        return userService.saveOrUpdate(user);
+        boolean b = userService.saveOrUpdate(user);
+        if (!b) {
+            return Result.error();
+        }
+        return Result.success();
     }
 
     /**
@@ -64,6 +68,19 @@ public class SysUserController {
     @GetMapping
     public List<SysUser> findAll() {
         return userService.list();
+    }
+
+    /**
+     * 获取当前用户
+     *
+     * @param username 用户名
+     * @return {@link SysUser}
+     */
+    @ApiOperation(value = "根据用户名获取用户信息")
+    @GetMapping("username/{username}")
+    public Result getCurrentUser(@PathVariable String username) {
+        SysUser user = userService.getByUsername(username);
+        return Result.success(user);
     }
 
     /**
@@ -171,10 +188,6 @@ public class SysUserController {
     public Result login(@RequestBody UserDto userDto, HttpServletRequest request) {
         UserDto dto = userService.login(userDto);
         if (dto != null) {
-            //HttpSession session = request.getSession();
-            //session.setAttribute("userInfo",dto);
-            //SysUser userInfo = (SysUser) session.getAttribute("userInfo");
-            //log.info(userInfo.toString());
             return Result.success(dto);
         }
         return Result.error(ResultStatusEnum.PASSWORD_NOT_MATCHING.getCode(),

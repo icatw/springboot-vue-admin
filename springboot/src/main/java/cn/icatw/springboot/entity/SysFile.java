@@ -54,6 +54,7 @@ public class SysFile implements Serializable {
      */
     private Integer enable;
 
+    private String md5;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 

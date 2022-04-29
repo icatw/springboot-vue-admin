@@ -19,7 +19,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor())
                 .addPathPatterns("/**")  // 拦截所有请求，通过判断token是否合法来决定是否需要登录
-                .excludePathPatterns("/sysUser/login", "/sysUser/register", "/**/export", "/**/import")
+                .excludePathPatterns("/sysUser/login", "/sysUser/register", "/**/export", "/**/import","/file/**")
                 .excludePathPatterns("/swagger-resources/**")
                 .excludePathPatterns("/webjars/**")
                 .excludePathPatterns("/v2/**")
@@ -27,23 +27,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
         ;
     }
 
-    //// 资源映射增加
-    //@Override
-    //public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    //    registry.addResourceHandler("swagger-ui.html")
-    //            .addResourceLocations("classpath:/META-INF/resources/");
-    //    registry.addResourceHandler("/webjars/**")
-    //            .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    //    super.addResourceHandlers(registry);
-    //}
-
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("swagger-ui.html")
-                    .addResourceLocations("classpath:/META-INF/resources/");
-            registry.addResourceHandler("/webjars/**")
-                    .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
         WebMvcConfigurer.super.addResourceHandlers(registry);
     }
 

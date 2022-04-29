@@ -39,12 +39,18 @@ export default {
       return this.$store.state.currentPathName;　　//需要监听的数据
     }
   },
+  created() {
+    this.getCurUser();
+  },
   data() {
     return {
       user: localStorage.getItem("user") != null ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
   methods: {
+    getCurUser() {
+
+    },
     collapse() {
       this.$emit("asideCollapse");
     },
